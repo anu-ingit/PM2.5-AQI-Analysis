@@ -1,21 +1,42 @@
-# PM2.5-AQI-Analysis
-Independent environmental engineering project visualizing PM2.5 and AQI trends using real-world air quality data.
-## Objectives
+# PM2.5 & AQI Analysis — Kolkata
 
-- Analyze PM2.5 trends
-- Calculate AQI
-- Visualize temporal patterns
-- Identify pollution hotspots
-- Develop interactive dashboard
+An independent environmental data project analyzing air quality trends in Kolkata using real-world monitoring data from CPCB's Rabindra Bharati University station (2022–2024).
 
-## Tools
+## What this project does
 
-- Python
-- Pandas
-- Plotly
-- Streamlit
-- GitHub
+- Ingests daily pollutant data (PM2.5, PM10, NO₂, O₃, CO) from CPCB CAAQMS
+- Calculates daily AQI using India's official NAQI breakpoint formula (CPCB 2014)
+- Analyzes seasonal trends, weekday vs weekend differences, and festival-related spikes
+- Visualizes pollutant correlations and AQI category distributions
+- Presents everything in an interactive Streamlit dashboard with date filters
+
+## Tools & Libraries
+
+Python · Pandas · Plotly · Seaborn · Streamlit · GitHub
+
+## Data Source
+
+CPCB CAAQMS — Rabindra Bharati University, Kolkata (2022–2024)
+https://app.cpcbccr.com/ccr/
+
+## AQI Standard
+
+India NAQI (CPCB 2014). PM2.5 exceedance referenced against WHO Global Air Quality Guidelines 2021 (24-hr limit: 15 µg/m³).
+
+## Run locally
+
+```bash
+git clone https://github.com/anu-ingit/PM2.5-AQI-Analysis.git
+cd PM2.5-AQI-Analysis
+python -m venv venv && source venv/Scripts/activate
+pip install -r requirements.txt
+streamlit run dashboard/app.py
+```
+
+## Live Dashboard
+
+_Link will be added after deployment_
 
 ## Status
 
-Project Initiated
+🟡 In progress — data pipeline complete, dashboard in development
