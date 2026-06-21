@@ -35,7 +35,8 @@ streamlit run dashboard/app.py
 
 ## Live Dashboard
 
-_Link will be added after deployment_
+[PM2.5 AQI ANALYSIS
+](https://pm25-aqi-analysis-dashboard.streamlit.app/)
 
 ## Status
 
