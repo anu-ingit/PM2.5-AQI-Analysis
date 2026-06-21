@@ -76,7 +76,8 @@ fig_aqi.add_trace(go.Scatter(
     mode="lines",
     line=dict(color="#e07b39", width=1.5),
     fill="tozeroy",
-    fillcolor="rgba(224, 123, 57, 0.15)",   
+    fillcolor="rgba(224, 123, 57, 0.15)",
+    connectgaps=False,   
     name="AQI"
 ))
 fig_aqi.add_hline(y=100, line_dash="dot", line_color="gray", annotation_text="Moderate")
