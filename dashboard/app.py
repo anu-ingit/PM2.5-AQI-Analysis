@@ -5,6 +5,9 @@ import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
 import plotly.express as px
+import matplotlib.pyplot as plt
+import seaborn as sns
+import numpy as np
 from src.data_loader import add_time_features
 
 st.set_page_config(page_title="Kolkata AQI Dashboard", layout="wide")
@@ -68,11 +71,12 @@ st.subheader("AQI Trend")
 
 fig_aqi = go.Figure()
 fig_aqi.add_trace(go.Scatter(
-    x=filtered["datetime"], y=filtered["aqi"],
+    x=filtered["date"],
+    y=filtered["aqi"],
     mode="lines",
     line=dict(color="#e07b39", width=1.5),
     fill="tozeroy",
-    fillcolor="rgba(224, 123, 57, 0.15)",
+    fillcolor="rgba(224, 123, 57, 0.15)",   
     name="AQI"
 ))
 fig_aqi.add_hline(y=100, line_dash="dot", line_color="gray", annotation_text="Moderate")
@@ -109,3 +113,36 @@ with col_right:
     )
     fig_wd.update_layout(height=320, template="plotly_white", showlegend=False)
     st.plotly_chart(fig_wd, use_container_width=True)
+
+    # ── Correlation Heatmap ────────────────────────────────────────────────────────
+st.subheader("Pollutant Correlation Heatmap")
+
+pollutants_available = [p for p in ["pm25","pm10","no2","o3","co","so2"]
+                        if p in filtered.columns]
+corr = filtered[pollutants_available].corr()
+
+fig_corr, ax = plt.subplots(figsize=(7, 5))
+mask = np.triu(np.ones_like(corr, dtype=bool))
+sns.heatmap(corr, mask=mask, annot=True, fmt=".2f",
+            cmap="RdYlGn", center=0, vmin=-1, vmax=1,
+            linewidths=0.5, ax=ax)
+ax.set_title("Pollutant Correlations")
+plt.tight_layout()
+st.pyplot(fig_corr)
+
+# ── Raw data toggle ────────────────────────────────────────────────────────────
+with st.expander("Show raw data table"):
+    st.dataframe(
+        filtered[["date","pm25","pm10","no2","o3","co","aqi","aqi_category"]].head(200),
+        use_container_width=True
+    )
+    csv = filtered.to_csv(index=False)
+    st.download_button("Download filtered CSV", csv, "aqi_filtered.csv", "text/csv")
+
+# ── Footer ─────────────────────────────────────────────────────────────────────
+st.divider()
+st.caption(
+    "Data sources: CPCB CAAQMS, OpenAQ. "
+    "AQI calculated using India NAQI standard (CPCB 2014). "
+    "WHO reference: Global Air Quality Guidelines 2021."
+)
